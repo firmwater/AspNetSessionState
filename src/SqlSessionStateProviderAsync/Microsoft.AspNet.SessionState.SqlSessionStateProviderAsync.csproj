@@ -43,13 +43,18 @@
     <BaseIntermediateOutputPath>..\obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- Firmwater fork: fully sign with our own key instead of delay-signing against
+         Microsoft's shared public key. Delay-signing only embeds a public key (enough to
+         produce a matching identity/PublicKeyToken for binding purposes) but leaves the
+         assembly without a real signature, which the CLR's strong-name verification rejects
+         at load time ("Strong name signature could not be verified"). We don't have Microsoft's
+         private key to complete that signature, so we sign fully with our own key instead -
+         this is a different PublicKeyToken than Microsoft's official builds, so any config
+         referencing this assembly's strong name needs to use ours. -->
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>$(RepositoryRoot)tools\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <DelaySign>true</DelaySign>
+    <AssemblyOriginatorKeyFile>$(RepositoryRoot)tools\FirmwaterAspNetSessionState.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
